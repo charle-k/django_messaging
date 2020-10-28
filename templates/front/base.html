@@ -1,0 +1,52 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %}{% endblock %} - Dating</title>
+        <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+    <body>
+        <div class="page-header">
+            <h1><a href="/">Dating</a></h1> 
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+
+                    {% if user.is_authenticated %}
+
+                    {% if user.is_staff %}
+                        <a href="{% url 'admin:index' %}">Django Admin</a>
+
+                    {% else %}
+
+                    <a href="{% url 'dating:my_friends' %}">Friends</a> | <a href="/">Inbox</a>
+                    
+                    {% endif %}
+
+                    | <a href="{% url 'logout' %}">Logout</a>
+
+                {% endif %}
+
+
+
+
+
+
+                </p>
+
+            </div>    
+
+        </div>
+
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
