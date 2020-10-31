@@ -20,4 +20,8 @@ def dashboard_user(request):
 
 @client_required
 def my_friends(request):
-    return render(request, 'dating/my_friends.html')
+    friends = request.user.profile.friends.all()
+    return render(request, 'dating/my_friends.html', {'friends': friends})
+
+
+

@@ -8,9 +8,20 @@ Home
 
 
 {% block content %}
+<h2>My Friends </h2>
+
 <p>
 
-This is home page
+<ul>
+
+{% for f in friends %}
+
+<li><a href="{% url 'messaging:chat' f.profile_number %}">{{ f.user.username }}</a></li>
+
+{% endfor %}
+
+
+</ul>	
 </p>
 
 {% endblock %}

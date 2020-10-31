@@ -1,0 +1,54 @@
+{% extends 'front/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+
+Chat - {{ friend.user.username }}
+
+{% endblock %}
+
+
+{% block content %}
+<h2>Chat - {{ friend.user.username }}</h2>
+
+<p>Preview: {{ friend_chat.preview }}</p>
+
+<p>
+    {% if message_list %}
+        {% for m in message_list %}
+            {{ m.message_text }}<br>
+            {{ m.created }} <br>
+            {% if m.is_outbox %}
+             <b>Me</b>
+            {% else %}
+               <b>{{ friend_chat.chat_recipient.user.username }}</b>
+            {% endif %}
+
+            <hr>
+
+
+        {% endfor %}
+
+
+    {% else %}
+    <h3>You have no messages in this conversation</h3>
+
+    {% endif %}
+</p>
+
+{% if message_list.has_other_pages %}
+    {% bootstrap_pagination message_list %}
+
+{% endif %}
+
+<hr>
+<form action="{% url 'messaging:send_message' friend.profile_number %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+
+
+{% endblock %}

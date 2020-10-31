@@ -1,8 +1,10 @@
 {% load static %}
+{% load bootstrap4 %}
+{% bootstrap_javascript jquery=True %}
 <html>
     <head>
         <title>{% block title %}{% endblock %} - Dating</title>
-        <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'style.css' %}">
     </head>
@@ -10,6 +12,8 @@
         <div class="page-header">
             <h1><a href="/">Dating</a></h1> 
         </div>
+
+
         <div class="row">
             <div class="col-md-8">
                 <p>
@@ -21,11 +25,12 @@
 
                     {% else %}
 
-                    <a href="{% url 'dating:my_friends' %}">Friends</a> | <a href="/">Inbox</a>
+                    <a href="{% url 'dating:my_friends' %}">Friends</a> | <a href="{% url 'messaging:inbox' %}">Inbox
+                        ({{ user.profile.unread_message_count }}) </a>
                     
                     {% endif %}
 
-                    | <a href="{% url 'logout' %}">Logout</a>
+                   | {{ user.username }} | <a href="{% url 'logout' %}">Logout</a>
 
                 {% endif %}
 
@@ -39,6 +44,18 @@
             </div>    
 
         </div>
+
+        {% if messages %}
+            <div class="row">
+            <div class="col-md-8">
+                <p>
+                {% bootstrap_messages %}
+                </p>
+
+            </div>
+            </div>
+        {% endif %}
+
 
         <div class="content container">
             <div class="row">
