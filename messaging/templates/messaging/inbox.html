@@ -9,9 +9,18 @@ My Inbox
 
 {% block content %}
 <h2>My Inbox</h2>
+<hr>
+<!-- for message in Msg_list -->
+<h3>Msg sender namae</h3><!--link to chat view -->
+<p>msg text previes...   <b>timestamp</b></p>
+<hr>
+
 
 <p>
 List of chats...
+ {% for i in inbox %}
+    <p>{{ i.message_text}}
+   {%endfor%}
 </p>
-
+<hr>
 {% endblock %}

@@ -7,7 +7,7 @@ from django.utils import timezone
 class Chat(models.Model):
     chat_profile = models.ForeignKey('dating.profile', related_name='chat_profile', on_delete=models.CASCADE)
     chat_recipient = models.ForeignKey('dating.profile', related_name='chat_recipient', on_delete=models.CASCADE)
-    preview = models.CharField(max_length=60, blank=False, null=False)
+    preview = models.CharField(max_length=20, blank=False, null=False)
     unread_message_count = models.IntegerField(default=0)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)

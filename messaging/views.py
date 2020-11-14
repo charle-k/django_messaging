@@ -14,9 +14,11 @@ from .models import Message, Chat
 @client_required
 def inbox(request):
     profile = request.user.profile
+    inbox_messages = Message.objects.filter(is_outbox=False)
+
     if profile.unread_message_count:
         profile.unread_message_count = 0
-    return render(request, 'messaging/inbox.html')
+    return render(request, 'messaging/inbox.html', {'inbox': inbox_messages})
 
 
 @client_required
