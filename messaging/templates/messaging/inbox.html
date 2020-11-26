@@ -1,5 +1,5 @@
 {% extends 'front/base.html' %}
-
+{% load bootstrap4 %}
 {% block title %}
 
 My Inbox
@@ -18,9 +18,45 @@ My Inbox
 
 <p>
 List of chats...
- {% for i in inbox %}
-    <p>{{ i.message_text}}
-   {%endfor%}
+<p>
+
+{% for i in inbox %}
+ <div class="card bg-light text-dark" style="width: 100rem;">
+   {% for p in  profile %}
+      <a href="{% url 'messaging:chat' p.profile_number %}" style="text-decoration: none; color: inherit;" >
+   {% endfor %}
+        <div class="card bg-light" >
+        <div class="card-body">
+         <h5 class="card-title">{{i.chat_recipient}}</h5>
+
+        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+        <p class="card-text"> {{i.preview}}...            <div class="d-flex flex-row-reverse"> <strong>| {{ i.updated }}</strong>  </p></div>
+       </a>
+<div class="d-flex flex-row-reverse">
+    <a href="#">
+  <div class="p-2"><span>edit</span></div>
+    </a>
+</div>
+
+        </div>
+        </div>
+</div>
+{% endfor %}
+<div>
+   {% if chats_list.has_other_pages %}
+     {% bootstrap_pagination chats_list %}
+   {% endif %}
+</div>
+</a>
+
+
+
+
+
 </p>
+
+
+</p>
+
 <hr>
 {% endblock %}

@@ -11,21 +11,21 @@ Chat - {{ friend.user.username }}
 {% block content %}
 <h2>Chat - {{ friend.user.username }}</h2>
 
-<p>Preview: {{ friend_chat.preview }}...{{ friend_chat.updated }}</p>
+
 
 
     {% if message_list %}
 
     {% for m in message_list %}
     {% if m.is_outbox %}
-        <div class="card bg-dark text-white" style="width: 18rem;" >
+        <div class=" bg-dark text-white fluid" style="width: 100rem;" >
     {%else %}
-        <div class="card bg-secondary text-white" style="width: 18rem;" >
+        <div class="card fluid" style="width: 100rem;" >
     {% endif %}
         <div class="card-body">
 
         {% if m.is_outbox %}
-            <h5 class="card-title">Me</h5>
+            <h5 class="card-title ">Me</h5>
         {% else %}
              <h5 class="card-title">{{ friend_chat.chat_recipient.user.username }}</h5>
         {% endif %}
@@ -34,8 +34,8 @@ Chat - {{ friend.user.username }}
         <p class="card-text"> {{ m.message_text }}</p>
 <hr>
 <hr>
-        <a href="#" class="card-link text-white">Reply</a>
-        <a href="#" class="card-link text-white">Forward</a>
+        <a href="{% url 'messaging:message_edit' friend.profile_number m.id%}" class="card-link text-inherit">Edit</a>
+
 
         </div>
         </div>
@@ -63,17 +63,12 @@ Chat - {{ friend.user.username }}
 
 <br>
 <br>
-<form class="form-inline" action="{% url 'messaging:send_message' friend.profile_number %}" method="post" >
+<form action="{% url 'messaging:send_message' friend.profile_number %}" method="post" class="form">
     {% csrf_token %}
+    {% bootstrap_form form %}
 
-  <div class="form-group mb-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
 
-  <div class="form-group mx-sm-3 mb-2">
-
-      <textarea type="message" class="form-control" id="MessageForm" placeholder="Type Your Message"></textarea>
-  </div>
-  <button type="submit" class="btn btn-primary mb-2">Send</button>
 </form>
-
 
 {% endblock %}
