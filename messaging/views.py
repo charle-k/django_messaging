@@ -2,8 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse, Http4
 from django.contrib import messages
 from django.utils import timezone
 from django.core.paginator import Paginator
-from django.views import generic
-from django.views.generic.edit import DeleteView
+
 
 from dating.decorators import client_required
 from dating.models import Profile
@@ -38,7 +37,7 @@ def chat(request, profile_number):
     message_list = None
     friend_chat = Chat.objects.filter(chat_recipient=friend, chat_profile=profile).first()
     if friend_chat:
-        messages_query = Message.objects.filter(chat=friend_chat).all()
+        messages_query = Message.objects.filter(chat=friend_chat,).all()
         page = request.GET.get('page')
         paginator = Paginator(messages_query, 5)
         message_list = paginator.get_page(page)
@@ -89,23 +88,29 @@ def send_message(request, profile_number):
     return redirect(reverse('messaging:chat', args=[profile_number, ]))
 
 
-def edit(request,profile_number, message_id):
-    message_details = Message.objects.get( id=message_id)
-    return render(request, 'messaging/edit.html', {'message_detail': message_details})
+def edit(request, profile_number, message_id):
+    message_details = Message.objects.get(id=message_id)
+    friend = get_object_or_404(Profile, profile_number=profile_number)
+    is_friend = friend.friends.filter(id=profile_number).exists()
+    return render(request, 'messaging/edit.html', {'message_detail': message_details,
+                                                   'profile_number': friend,
+                                                   'is_friend': is_friend})
 
-# def delete_message(request, profile_number, pk):
-#     friend = get_object_or_404(Profile, profile_number=profile_number)
-#     is_friend = friend.friends.filter(id=profile.id).exists()
-#     if is_friend:
-#         delete_message = Message.objects.get(pk=pk).delete()
-#
-#
-#     return redirect(reverse('messaging:chat', args=[profile_number, delete_message ]))
+def delete_message(request, profile_number, message_id):
+    friend = get_object_or_404(Profile, profile_number=profile_number)
+    is_friend = friend.friends.filter(id=profile_number).exists()
+    if is_friend:
+       Message.objects.get(id=message_id, is_outbox=True).delete()
+    return redirect(reverse('messaging:chat', args=[profile_number]))
+    # else:
+    #     print("you cant delete the message")
+        # return render(request, 'messaging/edit.html', {'message_detail': message_details,'profile_number': friend})
+# 'is_friend': is_friend})
 # def delete_chat(request, profile_number, pk):
 #     friend = get_object_or_404(Profile, profile_number=profile_number)
 #     is_friend = friend.friends.filter(id=profile.id).exists()
 #     if is_friend:
-#         delete_message = Message.objects.get(pk=pk).delete()
+#         delete_message = Chat.objects.get(pk=pk).delete()
 #
 #
 #     return redirect(reverse('messaging:chat', args=[profile_number, ]))
