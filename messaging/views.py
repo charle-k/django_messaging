@@ -16,6 +16,7 @@ from .models import Message, Chat
 def inbox(request,):
     profile = request.user.profile
     inbox_messages = Chat.objects.filter(chat_profile=profile)
+        # chat_id = Chat.objects.filter(id=id)
     profile_number = request.user.profile.friends.all()
     page = request.GET.get('page')
     paginator = Paginator(inbox_messages, 5)
@@ -25,6 +26,7 @@ def inbox(request,):
     return render(request, 'messaging/inbox.html', {'inbox': inbox_messages,
                                                     'profile': profile_number,
                                                     'chats_list': chat_list,
+                                                    # 'chat_id': chat_id
 
                                                     },)
 
@@ -95,16 +97,40 @@ def edit(request, profile_number, message_id):
     return render(request, 'messaging/edit.html', {'message_detail': message_details,
                                                    'profile_number': friend,
                                                    'is_friend': is_friend})
-
 def delete_message(request, profile_number, message_id):
+    message_delete = Message.objects.get(id=message_id, is_outbox=True)
     friend = get_object_or_404(Profile, profile_number=profile_number)
     is_friend = friend.friends.filter(id=profile_number).exists()
-    if is_friend:
-       Message.objects.get(id=message_id, is_outbox=True).delete()
-    return redirect(reverse('messaging:chat', args=[profile_number]))
+    # if is_friend:
+    #     if request.method == 'POST':
+    message_delete.delete()
+    messages.success(request, 'message deleted successfully')
+    return redirect('messaging:chat', profile_number=profile_number)
+    # else:
+    #     return render(request, 'messaging/edit.html', {'message_detail': message_delete,
+    #                                                    'profile_number': friend,
+    #                                                    'is_friend': is_friend})
+
+
     # else:
     #     print("you cant delete the message")
-        # return render(request, 'messaging/edit.html', {'message_detail': message_details,'profile_number': friend})
+    # return render(request, 'messaging/edit.html', {'message_detail': message_details,'profile_number': friend})
+# def delete_message(request, profile_number, message_id):
+#     profile = request.user.profile
+#     if request.method == 'POST':
+#         delete = Message.objects.get(id=message_id)
+#
+#     return redirect(reverse('messaging:chat', args=[profile_number, delete]))
+
+
+    # friend = get_object_or_404(Profile, profile_number=profile_number)
+    #
+    # is_friend = friend.exists()
+    # if is_friend:
+
+    # else:
+    #    print("you cant delete the message")
+    #    return render(request, 'messaging/edit.html', {'message_detail': message_details, 'profile_number': friend})
 # 'is_friend': is_friend})
 # def delete_chat(request, profile_number, pk):
 #     friend = get_object_or_404(Profile, profile_number=profile_number)
@@ -119,4 +145,4 @@ def delete_message(request, profile_number, message_id):
 #
 #     def get_queryset(self):
 #
-#         return Message.objects.get(id=id)
+        #

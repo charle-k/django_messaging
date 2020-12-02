@@ -1,14 +1,26 @@
+{% extends 'front/base.html' %}
+{% load bootstrap4 %}
 
+<h1>{%block title %}Edit message{% endblock %}</h1>
 
-<h1>Edit message</h1>
-
-
+{% block content %}
 
 {{message_detail.message_text }}
+
 <br>
 <br>
 <br>
 <br>
+{% if message_detail.is_outbox %}
+<!--<form actiom= "{% url 'messaging:message_delete' profile_number.profile_number message_detail.id  %}" method="post">-->
+<!--{% csrf_token %}-->
 <a href="{% url 'messaging:message_delete' profile_number.profile_number message_detail.id  %} ">
-<button type="button" class="btn btn-primary btn-lg">Delete</button>
+<button type="button" class="btn btn-danger btn-lg">Delete</button>
 </a>
+{% else %}
+
+{% endif %}
+<!--<a href = '{% url "messaging:message_delete" profile_number.profile_number message_detail.id  %}'<button class="btn btn-default btn-danger" name="delete" type="submit" value="Delete"</button>-->
+<!--</form>-->
+<!--</a>-->
+{% endblock %}
