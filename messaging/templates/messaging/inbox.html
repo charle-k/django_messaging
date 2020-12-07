@@ -2,18 +2,13 @@
 {% load bootstrap4 %}
 {% block title %}
 
+
 My Inbox
 
 {% endblock %}
-
+{{ messages }}
 
 {% block content %}
-<h2>My Inbox</h2>
-<hr>
-<!-- for message in Msg_list -->
-<h3>Msg sender namae</h3><!--link to chat view -->
-<p>msg text previes...   <b>timestamp</b></p>
-<hr>
 
 
 <p>
@@ -33,7 +28,7 @@ List of chats...
         <p class="card-text"> {{i.preview}}...            <div class="d-flex flex-row-reverse"> <strong>| {{ i.updated }}</strong>  </p></div>
        </a>
 <div class="d-flex flex-row-reverse">
-    <a href="#">
+    <a href="{% url 'messaging:chat_edit' i.chat_recipient.id %}">
   <div class="p-2"><span>edit</span></div>
     </a>
 </div>

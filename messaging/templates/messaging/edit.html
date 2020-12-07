@@ -4,13 +4,25 @@
 <h1>{%block title %}Edit message{% endblock %}</h1>
 
 {% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
 
+<br>
+<strong><hr></strong>
+<div class="card-body">
 {{message_detail.message_text }}
+</div>
+<strong><hr></strong>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-<br>
-<br>
-<br>
-<br>
 {% if message_detail.is_outbox %}
 <!--<form actiom= "{% url 'messaging:message_delete' profile_number.profile_number message_detail.id  %}" method="post">-->
 <!--{% csrf_token %}-->

@@ -1,0 +1,22 @@
+
+{%for c in chat_object%}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<strong><hr></strong>
+<div class=" card"><strong><h1>ARE YOU SURE YOU WANT TO DELETE YOU CHAT WITH {{c.chat_recipient}}</h1></strong>
+
+<a href="{% url 'messaging:chat_delete' c.chat_recipient.id  %} ">
+<button type="button" class="btn btn-danger btn-lg">Delete</button>
+</a>
+    <strong><hr></strong>
+
+</div>
+{% endfor %}
+
+
